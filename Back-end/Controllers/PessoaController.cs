@@ -118,7 +118,7 @@ namespace Back_end.Controllers
             {
                 pessoa.Nome = Amodel.nome;
                 pessoa.Sobrenome = Amodel.sobrenome;
-                pessoa.Cpf = Amodel.cpf;
+                pessoa.Cpf = Amodel.cpf.Replace(".", "").Replace("-", "");
                 pessoa.Email = Amodel.email;
                 pessoa.Sexo_Id = Amodel.sexo;
                 pessoa.Nascimento = Amodel.nascimento;
