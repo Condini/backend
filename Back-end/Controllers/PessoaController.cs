@@ -9,7 +9,8 @@ using System.Data.Sql;
 using System.Data.Entity;
 using Back_end.Models;
 using System.Web.Http.Cors;
-
+using System.Data.SqlClient;
+using System.Text;
 
 namespace Back_end.Controllers
 {
@@ -28,6 +29,10 @@ namespace Back_end.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
                 if (Amodel.id == 0)
                 {
                     var pessoa = new Pessoa();
@@ -36,7 +41,16 @@ namespace Back_end.Controllers
                     pessoa.Cpf = Amodel.cpf.Replace(".", "").Replace("-", "");
                     pessoa.Email = Amodel.email.Replace("/","");
                     pessoa.Sexo_Id = Amodel.sexo;
-                    pessoa.Nascimento = Amodel.nascimento;                    
+                    pessoa.Nascimento = Amodel.nascimento;
+                    //
+                    //var obj = _context.Pessoa.FirstOrDefault(c => c.Cpf == Amodel.cpf);
+                    var obj = _context.Pessoa.Any(c => c.Cpf == pessoa.Cpf);
+                    
+                    if (obj)
+                    {
+                        return false;
+                    }
+                    //
                     _context.Pessoa.Add(pessoa);
                     _context.SaveChanges();
                     return new
@@ -44,20 +58,6 @@ namespace Back_end.Controllers
                 }
                 else
                 {
-                    var pessoa = _context.Pessoa.FirstOrDefault(s => s.Id == Amodel.id);
-                    if (pessoa.Id > 0)
-                    {
-                        pessoa.Nome = Amodel.nome;
-                        pessoa.Sobrenome = Amodel.sobrenome;
-                        pessoa.Cpf = Amodel.cpf;
-                        pessoa.Email = Amodel.email;
-                        pessoa.Sexo_Id = Amodel.sexo;
-                        pessoa.Nascimento = Amodel.nascimento;                        
-                        _context.Pessoa.Add(pessoa);
-                        _context.SaveChanges();
-                        return new
-                        { Status = "Success", Message = "SuccessFully Update." };
-                    }
                     return new
                     { Status = "Error", Message = "Invalid." };
                 }
@@ -151,8 +151,6 @@ namespace Back_end.Controllers
             }
         }
 
-
-
-
-    }
+        /// ------------------------------------------------------------- testando opçoes
+        }
 }
