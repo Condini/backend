@@ -33,57 +33,31 @@ namespace Back_end.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                if (Amodel.id == 0)
-                {
-                    var pessoa = new Pessoa();
-                    pessoa.Nome = Amodel.nome;
-                    pessoa.Sobrenome = Amodel.sobrenome;
-                    pessoa.Cpf = Amodel.cpf.Replace(".", "").Replace("-", "");
-                    pessoa.Email = Amodel.email.Replace("/","");
-                    pessoa.Sexo_Id = Amodel.sexo;
-                    pessoa.Nascimento = Amodel.nascimento;
-                    //
-                    //var obj = _context.Pessoa.FirstOrDefault(c => c.Cpf == Amodel.cpf);
-                    var obj = _context.Pessoa.Any(c => c.Cpf == pessoa.Cpf);
-                    
-                    if (obj)
-                    {
-                        return false;
-                    }
-                    //
-                    _context.Pessoa.Add(pessoa);
-                    _context.SaveChanges();
-                    return new
-                    { Status = "Success", Message = "SuccessFully Saved." };
-                }
-                else
-                {
-                    return new
-                    { Status = "Error", Message = "Invalid." };
-                }
+                var business = new Business.Businesscrud();
+                business.CriarPessoa(Amodel);
             }
             catch (Exception ex)
             {
                 return new
                 { Status = "Error", Message = ex.Message.ToString() };
             }
+            return Ok();
         }
 
         [Route("GetPessoaData")]
         [HttpGet]
         public object GetStudentData()
         {
-            var obj = from u in _context.Pessoa
-                      select new UserViewModel() {
-                          id = u.Id,
-                          nome = u.Nome,
-                          sobrenome = u.Sobrenome,
-                          cpf = u.Cpf,
-                          email = u.Email,
-                          sexo = u.Sexo_Id,
-                          nascimento = u.Nascimento
-                      };
-            return obj;
+            try
+            {
+                var business = new Business.Businesscrud();
+                return business.ListaPessoas();
+            }
+            catch (Exception ex)
+            {
+                return new
+                { Status = "Error", Message = ex.Message.ToString() };
+            }
         }
 
         // && E
@@ -94,61 +68,55 @@ namespace Back_end.Controllers
         [HttpGet]
         public object GetStudentById(int Id)
         {
-            var obj = (from u in _context.Pessoa
-                       select new UserViewModel()
-                       {
-                           id = u.Id,
-                           nome = u.Nome,
-                           sobrenome = u.Sobrenome,
-                           cpf = u.Cpf,
-                           email = u.Email,
-                           sexo =  u.Sexo_Id,
-                           nascimento = u.Nascimento
-                       }).FirstOrDefault(x => x.id == Id);
-            return obj;
-        }
-
-        [Route("UpdatePessoa")]
-        [HttpPut]
-        public object UpdatePessoa(UserViewModel Amodel)
-        {            
-            var pessoa = _context.Pessoa.FirstOrDefault(p => p.Id == Amodel.id);
-
-            if (pessoa != null)
-            {
-                pessoa.Nome = Amodel.nome;
-                pessoa.Sobrenome = Amodel.sobrenome;
-                pessoa.Cpf = Amodel.cpf.Replace(".", "").Replace("-", "");
-                pessoa.Email = Amodel.email;
-                pessoa.Sexo_Id = Amodel.sexo;
-                pessoa.Nascimento = Amodel.nascimento;
-                _context.SaveChanges();
-            }
-            else
-            {
-                return NotFound();
-            }
-            return new
-            { Status = "Success", Message = "SuccessFully Updated." };
-        }
-        [AcceptVerbs("DELETE")]
-        [Route("DeletePessoa/{Id}")]
-        [HttpGet]
-        public object DeleteStudent(int Id)
-        {
             try
             {
-                var pessoa = _context.Pessoa.FirstOrDefault(p => p.Id == Id);
-                _context.Pessoa.Remove(pessoa);
-                _context.SaveChanges();
-                return new
-                { Status = "Success", Message = "SuccessFully Delete." };
+                var business = new Business.Businesscrud();
+                return business.LerPessoa(Id);
             }
             catch (Exception ex)
             {
                 return new
                 { Status = "Error", Message = ex.Message.ToString() };
             }
+
+        }
+
+        [Route("UpdatePessoa")]
+        [HttpPut]
+        public object UpdatePessoa(UserViewModel Amodel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var business = new Business.Businesscrud();
+                business.AtualizarPessoa(Amodel);
+            }
+            catch (Exception ex)
+            {
+                return new
+                { Status = "Error", Message = ex.Message.ToString() };
+            }
+            return Ok();
+        }
+        [AcceptVerbs("DELETE")]
+        [Route("DeletePessoa/{Id}")]
+        [HttpDelete]
+        public object DeleteStudent(int Id)
+        {
+            try
+            {
+                var business = new Business.Businesscrud();
+                business.DeletarPessoa(Id);
+            }
+            catch (Exception ex)
+            {
+                return new
+                { Status = "Error", Message = ex.Message.ToString() };
+            }
+            return Ok();
         }
 
         /// ------------------------------------------------------------- testando opçoes

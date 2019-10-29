@@ -12,10 +12,10 @@ namespace Back_end
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [StringLength(50)]
+        [StringLength(15)]
         public string Nome { get; set; }
 
-        [StringLength(50)]
+        [StringLength(15)]
         public string Sobrenome { get; set; }
 
         [StringLength(11)]
