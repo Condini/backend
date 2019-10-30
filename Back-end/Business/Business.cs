@@ -17,7 +17,7 @@ namespace Back_end.Business
     public class Businesscrud : ApiController
     {
         private PessoaContext _context = new PessoaContext();
-        public IHttpActionResult CriarPessoa(UserViewModel Amodel)
+        public string CriarPessoa(UserViewModel Amodel)
         {
             try
             {
@@ -34,22 +34,24 @@ namespace Back_end.Business
                     var obj = _context.Pessoa.Any(c => c.Cpf == pessoa.Cpf);
                     if (obj)
                     {
-                        return Content(HttpStatusCode.NotFound, "CPF já existente na base de dados.");
+                        return "CPF já existente na base de dados!";
                     }
                     else
                     {
                         _context.Pessoa.Add(pessoa);
                         _context.SaveChanges();
-                        return Ok();
+                        return "Success";
                     }
+                }else
+                {
+                    return "Id Inválido!";
                 }
 
             }
             catch (Exception ex)
             {
-                return NotFound();
+                return ex.ToString(); 
             }
-            return Ok();
         }
 
         public object ListaPessoas()
