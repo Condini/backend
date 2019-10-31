@@ -61,7 +61,7 @@ namespace Back_end.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest("Não foi possível trazer a lista de pessoas");
             }
         }
 
@@ -80,7 +80,7 @@ namespace Back_end.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest("Não foi possível trazer os dados da pessoa");
             }
 
         }
