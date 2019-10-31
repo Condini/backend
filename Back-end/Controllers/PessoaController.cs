@@ -89,8 +89,9 @@ namespace Back_end.Controllers
 
         [Route("UpdatePessoa")]
         [HttpPut]
-        public object UpdatePessoa(UserViewModel Amodel)
+        public IHttpActionResult UpdatePessoa(UserViewModel Amodel)
         {
+            var mensagem = "";
             try
             {
                 if (!ModelState.IsValid)
@@ -98,14 +99,21 @@ namespace Back_end.Controllers
                     return BadRequest(ModelState);
                 }
                 var business = new Business.Businesscrud();
-                business.AtualizarPessoa(Amodel);
+                mensagem = business.AtualizarPessoa(Amodel);
+                if (mensagem == "Success")
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest(mensagem);
+                }
             }
             catch (Exception ex)
             {
-                return new
-                { Status = "Error", Message = ex.Message.ToString() };
+                return BadRequest(ex.Message);
             }
-            return Ok();
+
         }
         [AcceptVerbs("DELETE")]
         [Route("DeletePessoa/{Id}")]

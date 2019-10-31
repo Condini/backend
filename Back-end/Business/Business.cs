@@ -34,7 +34,7 @@ namespace Back_end.Business
                     var obj = _context.Pessoa.Any(c => c.Cpf == pessoa.Cpf);
                     if (obj)
                     {
-                        return "CPF já existente na base de dados!";
+                        return "O CPF inserido já existe na base de dados!";
                     }
                     else
                     {
@@ -68,6 +68,7 @@ namespace Back_end.Business
                           nascimento = u.Nascimento
                       };
             return obj;
+
         }
         public object LerPessoa(int Id)
         {
@@ -85,25 +86,42 @@ namespace Back_end.Business
             return obj;
         }
 
-        public IHttpActionResult AtualizarPessoa(UserViewModel Amodel)
+        public string AtualizarPessoa(UserViewModel Amodel)
         {
-            var pessoa = _context.Pessoa.FirstOrDefault(p => p.Id == Amodel.id);
-
-            if (pessoa != null)
+            try
             {
-                pessoa.Nome = Amodel.nome;
-                pessoa.Sobrenome = Amodel.sobrenome;
-                pessoa.Cpf = Amodel.cpf.Replace(".", "").Replace("-", "");
-                pessoa.Email = Amodel.email;
-                pessoa.Sexo_Id = Amodel.sexo;
-                pessoa.Nascimento = Amodel.nascimento;
-                _context.SaveChanges();
+                var pessoa = _context.Pessoa.FirstOrDefault(p => p.Id == Amodel.id);
+                Pessoa p2 = new Pessoa();
+                if (pessoa != null)
+                {
+                    pessoa.Nome = Amodel.nome;
+                    pessoa.Sobrenome = Amodel.sobrenome;
+                    if(pessoa.Cpf != Amodel.cpf.Replace(".", "").Replace("-", ""))
+                    {
+                        var obj = _context.Pessoa.Any(c => c.Cpf == Amodel.cpf.Replace(".", "").Replace("-", ""));
+                        if (obj)
+                        {
+                            return "O CPF inserido já existe na base de dados!";
+                        }
+                        else
+                        {
+                            pessoa.Cpf = Amodel.cpf.Replace(".", "").Replace("-", "");
+                        }                  
+                    }        
+                    pessoa.Email = Amodel.email;
+                    pessoa.Sexo_Id = Amodel.sexo;
+                    pessoa.Nascimento = Amodel.nascimento;
+                    return "Success";
+                }
+                else
+                {
+                    return "Id Inválido!";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                return ex.ToString();
             }
-            return Ok();
         }
 
         public IHttpActionResult DeletarPessoa(int Id)
