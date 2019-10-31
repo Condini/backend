@@ -52,17 +52,16 @@ namespace Back_end.Controllers
 
         [Route("GetPessoaData")]
         [HttpGet]
-        public object GetStudentData()
+        public IHttpActionResult GetStudentData()
         {
             try
             {
                 var business = new Business.Businesscrud();
-                return business.ListaPessoas();
+                return Ok(business.ListaPessoas());
             }
             catch (Exception ex)
             {
-                return new
-                { Status = "Error", Message = ex.Message.ToString() };
+                return BadRequest();
             }
         }
 
@@ -72,17 +71,16 @@ namespace Back_end.Controllers
 
         [Route("GetPessoaById/{Id}")]
         [HttpGet]
-        public object GetStudentById(int Id)
+        public IHttpActionResult GetStudentById(int Id)
         {
             try
             {
                 var business = new Business.Businesscrud();
-                return business.LerPessoa(Id);
+                return Ok(business.LerPessoa(Id));
             }
             catch (Exception ex)
             {
-                return new
-                { Status = "Error", Message = ex.Message.ToString() };
+                return BadRequest();
             }
 
         }
