@@ -68,7 +68,6 @@ namespace Back_end.Business
                           nascimento = u.Nascimento
                       };
             return obj;
-
         }
         public object LerPessoa(int Id)
         {
@@ -111,6 +110,7 @@ namespace Back_end.Business
                     pessoa.Email = Amodel.email;
                     pessoa.Sexo_Id = Amodel.sexo;
                     pessoa.Nascimento = Amodel.nascimento;
+                    _context.SaveChanges();
                     return "Success";
                 }
                 else
@@ -124,17 +124,18 @@ namespace Back_end.Business
             }
         }
 
-        public object DeletarPessoa(int Id)
+        public IHttpActionResult DeletarPessoa(int Id)
         {
             try
             {
                 var pessoa = _context.Pessoa.FirstOrDefault(p => p.Id == Id);
                 _context.Pessoa.Remove(pessoa);
-                return _context.SaveChanges();
+                _context.SaveChanges();
+                return Ok("Usuário deletado com sucesso");
             }
             catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest();
             }
         }
     }

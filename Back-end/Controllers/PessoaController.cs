@@ -46,13 +46,13 @@ namespace Back_end.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("Não foi possível adicionar o usuário. Verifique os campos preenchidos e tente novamente!");
             }
         }
 
         [Route("GetPessoaData")]
         [HttpGet]
-        public IHttpActionResult GetStudentData()
+        public IHttpActionResult GetPessoaData()
         {
             try
             {
@@ -71,7 +71,7 @@ namespace Back_end.Controllers
 
         [Route("GetPessoaById/{Id}")]
         [HttpGet]
-        public IHttpActionResult GetStudentById(int Id)
+        public IHttpActionResult GetPessoaById(int Id)
         {
             try
             {
@@ -116,12 +116,13 @@ namespace Back_end.Controllers
         [AcceptVerbs("DELETE")]
         [Route("DeletePessoa/{Id}")]
         [HttpDelete]
-        public IHttpActionResult DeleteStudent(int Id)
+        public IHttpActionResult DeletePessoa(int Id)
         {
             try
             {
                 var business = new Business.Businesscrud();
-                return Ok(business.DeletarPessoa(Id));
+                business.DeletarPessoa(Id);
+                return Ok();
             }
             catch (Exception ex)
             {
