@@ -116,19 +116,17 @@ namespace Back_end.Controllers
         [AcceptVerbs("DELETE")]
         [Route("DeletePessoa/{Id}")]
         [HttpDelete]
-        public object DeleteStudent(int Id)
+        public IHttpActionResult DeleteStudent(int Id)
         {
             try
             {
                 var business = new Business.Businesscrud();
-                business.DeletarPessoa(Id);
+                return Ok(business.DeletarPessoa(Id));
             }
             catch (Exception ex)
             {
-                return new
-                { Status = "Error", Message = ex.Message.ToString() };
+                return BadRequest("Ocorreu algum erro.");
             }
-            return Ok();
         }
 
         /// ------------------------------------------------------------- testando opçoes

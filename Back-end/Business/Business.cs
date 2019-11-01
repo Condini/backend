@@ -124,19 +124,18 @@ namespace Back_end.Business
             }
         }
 
-        public IHttpActionResult DeletarPessoa(int Id)
+        public object DeletarPessoa(int Id)
         {
             try
             {
                 var pessoa = _context.Pessoa.FirstOrDefault(p => p.Id == Id);
                 _context.Pessoa.Remove(pessoa);
-                _context.SaveChanges();
+                return _context.SaveChanges();
             }
             catch (Exception ex)
             {
                 return NotFound();
             }
-            return Ok();
         }
     }
 }
