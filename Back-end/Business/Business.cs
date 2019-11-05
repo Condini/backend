@@ -54,7 +54,7 @@ namespace Back_end.Business
             }
         }
 
-        public object ListaPessoas()
+        public IQueryable ListaPessoas()
         {
             var obj = from u in _context.Pessoa
                       select new UserViewModel()
@@ -69,7 +69,7 @@ namespace Back_end.Business
                       };
             return obj;
         }
-        public object LerPessoa(int Id)
+        public UserViewModel LerPessoa(int Id)
         {
             var obj = (from u in _context.Pessoa
                        select new UserViewModel()
