@@ -12,6 +12,7 @@ namespace Back_end
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        //[Required(ErrorMessage = "Please specify id")]
         [StringLength(15)]
         public string Nome { get; set; }
 

@@ -32,7 +32,7 @@ namespace Back_end.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState);
+                    return BadRequest("Não foi possível adicionar essa pessoa.\n Verifique os campos e tente novamente.");
                 }
                 var business = new Business.Businesscrud();
                 mensagem = business.CriarPessoa(Amodel);
@@ -109,7 +109,7 @@ namespace Back_end.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest("Não foi possível atualizar os dados dessa pessoa. Verifique os campos e tente novamente.");
             }
 
         }
