@@ -94,7 +94,7 @@ namespace Back_end.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(ModelState);
+                    return BadRequest("Não foi possível atualizar os dados dessa pessoa.\n Verifique os campos e tente novamente.");
                 }
                 var business = new Business.Businesscrud();
                 mensagem = business.AtualizarPessoa(Amodel);
