@@ -32,7 +32,7 @@ namespace Back_end.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest("Não foi possível adicionar essa pessoa.\n Verifique os campos e tente novamente.");
+                    return BadRequest("Não foi possível adicionar essa pessoa.\n Verifique seus dados e tente novamente.");
                 }
                 var business = new Business.Businesscrud();
                 mensagem = business.CriarPessoa(Amodel);
@@ -46,7 +46,7 @@ namespace Back_end.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Não foi possível adicionar o usuário. Verifique os campos preenchidos e tente novamente!");
+                return BadRequest("Não foi possível adicionar o usuário. Verifique seus dados e tente novamente!");
             }
         }
 
@@ -61,13 +61,9 @@ namespace Back_end.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Não foi possível trazer a lista de pessoas");
+                return BadRequest("Não foi possível trazer a lista de pessoas.");
             }
         }
-
-        // && E
-        // || OU
-        // ! NOT
 
         [Route("GetPessoaById/{Id}")]
         [HttpGet]
@@ -80,7 +76,7 @@ namespace Back_end.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Não foi possível trazer os dados da pessoa");
+                return BadRequest("Não foi possível trazer os dados da pessoa.");
             }
 
         }
@@ -94,7 +90,7 @@ namespace Back_end.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest("Não foi possível atualizar os dados dessa pessoa.\n Verifique os campos e tente novamente.");
+                    return BadRequest("Não foi possível atualizar os dados dessa pessoa.\n Verifique seus dados e tente novamente.");
                 }
                 var business = new Business.Businesscrud();
                 mensagem = business.AtualizarPessoa(Amodel);
@@ -109,7 +105,7 @@ namespace Back_end.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest("Não foi possível atualizar os dados dessa pessoa. Verifique os campos e tente novamente.");
+                return BadRequest("Não foi possível atualizar os dados dessa pessoa. Verifique seus dados e tente novamente.");
             }
 
         }
@@ -130,6 +126,5 @@ namespace Back_end.Controllers
             }
         }
 
-        /// ------------------------------------------------------------- testando opçoes
         }
 }

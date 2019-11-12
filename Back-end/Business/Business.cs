@@ -30,7 +30,6 @@ namespace Back_end.Business
                     pessoa.Email = Amodel.email.Replace("/", "");
                     pessoa.Sexo_Id = Amodel.sexo;
                     pessoa.Nascimento = Amodel.nascimento;
-                    //var obj = _context.Pessoa.FirstOrDefault(c => c.Cpf == Amodel.cpf);
                     var obj = _context.Pessoa.Any(c => c.Cpf == pessoa.Cpf);
                     if (obj)
                     {
