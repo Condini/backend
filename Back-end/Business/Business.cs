@@ -49,7 +49,7 @@ namespace Back_end.Business
             }
             catch (Exception ex)
             {
-                return ex.ToString(); 
+                return "Ocorreu algum erro."; 
             }
         }
 
@@ -119,7 +119,7 @@ namespace Back_end.Business
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return "Ocorreu algum erro.";
             }
         }
 
