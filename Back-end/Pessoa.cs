@@ -22,7 +22,7 @@ namespace Back_end
         [StringLength(11)]
         public string Cpf { get; set; }
 
-        [StringLength(50)]
+        [StringLength(30)]
         public string Email { get; set; }
 
         public int? Sexo_Id { get; set; }
