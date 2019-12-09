@@ -71,8 +71,16 @@ namespace Back_end.Controllers
         {
             try
             {
-                var business = new Business.Businesscrud();
-                return Ok(business.LerPessoa(Id));
+                var pessoa = _context.Pessoa.FirstOrDefault(p => p.Id == Id);
+                if (Id == pessoa.Id)
+                {
+                    var business = new Business.Businesscrud();
+                    return Ok(business.LerPessoa(Id));
+                }
+                else
+                {
+                    return BadRequest("Este ID é inválido ou inexistente.");
+                }
             }
             catch (Exception ex)
             {
